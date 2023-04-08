@@ -21,6 +21,7 @@ add wave -noupdate /tb_galois_lsfr/w_lsfr_data_r
 add wave -noupdate /tb_galois_lsfr/err_flag
 add wave -noupdate /tb_galois_lsfr/stop_sim
 add wave -noupdate /tb_galois_lsfr/stop_sim_dly
+# add wave -noupdate /tb_galois_lsfr/sss
 add wave -noupdate -divider lsfr_gen
 add wave -noupdate /tb_galois_lsfr/lsfr_gen/*
 add wave -noupdate -divider lsfr_check

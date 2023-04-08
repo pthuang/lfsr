@@ -124,7 +124,7 @@ module tb_galois_lsfr ();
                 $stop;
             end
         end
-    end
+    end 
 
    
 endmodule // lsfr_tb
