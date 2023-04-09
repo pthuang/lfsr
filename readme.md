@@ -7,7 +7,7 @@
 [TOC]
 [开源地址](https://github.com/pthuang/lsfr)
 
-[图片加载不出来？点这里]
+[图片加载不出来？点这里查看pdf](https://github.com/pthuang/lsfr/blob/master/doc/readme.pdf)
 
 ------
 
