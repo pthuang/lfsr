@@ -107,19 +107,26 @@ Fabonacci型又叫many-to-one型，从图中可以看出，所有的抽头的异
     $$
     
     其中，R(x)是输出多项式，M(x)是输入多项式，G(x)是特征多项式（生成多项式）。
-
     对于一个N位的寄存器，最多有2^N个不同的状态，但是由于全0（或）全1会导致移位寄存器陷入死循环，所以N位LSFR能产生的*最长不重复序列*的个数为：
+    
     $$
     2 ^ N - 1
     $$
+    
     此*最长不重复序列*称为**最长输出序列**，N位的LSFR，可用的抽头至少有n个（第0个抽头是必须的，不算），所以可以有很多种不同的抽头配置，但不是所有抽头都能使其达到**最长输出序列**，能使输出R(x)成为**最长输出序列**的特征多项式称为**本原多项式**。
 
     值得注意的是，**本原多项式**并非只有一个。
     
-    如：N位3时，**本原多项式**可以是：
+    如N为3时，**本原多项式**可以是：
+    
     $$
-    X ^ 3 + X ^ 2 + 1\\
-    X ^ 3 + X ^ 1 + 1
+    X ^ 3 + X ^ 2 + 1
+    $$
+    
+    或
+    
+    $$
+    X ^ 3 + X ^ 1 + 1 
     $$
     
 +   代码实现
@@ -149,42 +156,42 @@ Fabonacci型又叫many-to-one型，从图中可以看出，所有的抽头的异
          ```
 
          根据逻辑代数公式：
-
-        $$
-        A \oplus 0 = A\\
-        $$
-
-    	所以，只需对fb_vec进行迭代，抽头时fb_vec[i] = x_lsfr[BIT_WIDTH]，不抽头时fb_vec[i] = 0；
+         $$
+         A \oplus 0 = A\\
+         $$
+         所以，只需对fb_vec进行迭代，抽头时fb_vec[i] = x_lsfr[BIT_WIDTH]，不抽头时fb_vec[i] = 0；
 
     2.   Fabonacci:
-
-        ```verilog
-        always @(posedge clk or posedge rst) begin
-            if (rst) begin
-                r_lsfr <= DEFAULT_SEED; 
-            end else begin
-                if (enable) begin
-                    if (load_evt == 1'b1) begin
-                        r_lsfr <= seed_data;
-                    end else if (~lsfr_vld & ~seed_load_flag) begin
-                        r_lsfr <= DEFAULT_SEED;
-                    end else begin
-                        r_lsfr <= {r_lsfr[BIT_WIDTH-1:1], r_xnor}; //key code 
-                    end
-                end
-            end 
-        end
-        ```
-
+         
+         ```verilog
+         always @(posedge clk or posedge rst) begin
+             if (rst) begin
+                 r_lsfr <= DEFAULT_SEED; 
+             end else begin
+                 if (enable) begin
+                     if (load_evt == 1'b1) begin
+                         r_lsfr <= seed_data;
+                     end else if (~lsfr_vld & ~seed_load_flag) begin
+                         r_lsfr <= DEFAULT_SEED;
+                     end else begin
+                         r_lsfr <= {r_lsfr[BIT_WIDTH-1:1], r_xnor}; //key code 
+                     end
+                 end
+             end 
+         end
+         ```
+        
     3.   种子的选择
     
          不难注意到，上述两段代码中分别使用了*异或*和*同或*对LSFR进行实现，那么两者有何不同呢？
     
          运算逻辑的选择跟种子序列状态有关，由于
+         
          $$
          0 \oplus 0 = 0 \\
          1 \odot  1 = 1
          $$
+         
          所以用*异或*实现的LSFR不能出现全0状态，用*同或*实现的LSFR不能出现全1状态，基于此考虑，两种LSFR的默认种子均设置为**“0...001”**，确保不会陷入死循环。
     
     4.   完整代码实现请看源文件
