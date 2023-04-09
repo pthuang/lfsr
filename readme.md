@@ -162,25 +162,25 @@ Fabonacci型又叫many-to-one型，从图中可以看出，所有的抽头的异
          所以，只需对fb_vec进行迭代，抽头时fb_vec[i] = x_lsfr[BIT_WIDTH]，不抽头时fb_vec[i] = 0；
 
     2.   Fabonacci:
-
-        ```verilog
-        always @(posedge clk or posedge rst) begin
-            if (rst) begin
-                r_lsfr <= DEFAULT_SEED; 
-            end else begin
-                if (enable) begin
-                    if (load_evt == 1'b1) begin
-                        r_lsfr <= seed_data;
-                    end else if (~lsfr_vld & ~seed_load_flag) begin
-                        r_lsfr <= DEFAULT_SEED;
-                    end else begin
-                        r_lsfr <= {r_lsfr[BIT_WIDTH-1:1], r_xnor}; //key code 
-                    end
-                end
-            end 
-        end
-        ```
-
+         
+         ```verilog
+         always @(posedge clk or posedge rst) begin
+             if (rst) begin
+                 r_lsfr <= DEFAULT_SEED; 
+             end else begin
+                 if (enable) begin
+                     if (load_evt == 1'b1) begin
+                         r_lsfr <= seed_data;
+                     end else if (~lsfr_vld & ~seed_load_flag) begin
+                         r_lsfr <= DEFAULT_SEED;
+                     end else begin
+                         r_lsfr <= {r_lsfr[BIT_WIDTH-1:1], r_xnor}; //key code 
+                     end
+                 end
+             end 
+         end
+         ```
+        
     3.   种子的选择
     
          不难注意到，上述两段代码中分别使用了*异或*和*同或*对LSFR进行实现，那么两者有何不同呢？
