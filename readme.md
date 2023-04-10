@@ -17,41 +17,25 @@
 
 +   2021/09/02 modify log:
 
-    1.   完成galois型lsfr开发：
-
-         +   文件名：galois_lsfr.v；
-
-         +   具体内容：
-
-             完成V1.0版本模块开发与仿真，只支持3~16bit，代码不规范，通用性不强，仿真用例简单。
+    1.   galois型lsfr开发与仿真：只支持3~16bit，代码不规范，通用性不强，仿真用例简单。
 
 +   2023/03/19 modify log:
 
-    1.   完成fibonacci型lsfr开发：
+    1.   fibonacci型lsfr开发与仿真：支持3-->128bit；
 
-         +   文件名：fibonacci_lsfr.v；
-
-         +   具体内容：
-
-             完成代码开发与仿真，支持3-->128bit；
-
-    2.   galois型lsfr更新到V2.0版本：
-
-         +   文件名：galois_lsfr.v；
-
-         +   模块名：galois_lsfr；
-
-         +   具体内容：
-
-             支持bit数更新为3-->20,32,64,128bit；
+    2.   galois型lsfr更新到V2.0版本：支持bit数更新为3-->20,32,64,128bit；
 
 +   2023/04/08 modify log:
     1.   完成matlab代码（用于生成抽头矩阵verilog代码）；
     2.   完成所有模块代码更新；
     3.   修改仿真do脚本文件，优化文件管理结构；
-
 +   2023/04/09 modify log:
     1.   完成部分markdown文档编写；
+
++   2023/04/10 modify log:
+    1.   修复fabonacci模块的一个语法bug；
+    2.   添加lsfr.xmind文件；
+    3.   更新markdown，同步更新pdf；
 
 
 
@@ -59,12 +43,14 @@
 
 ## 2.项目简介
 
-+   本项目是一个用于FPGA平台的LSFR模块代码；
-+   使用Verilog HDL语言进行开发；
-+   主要目的是为了方便FPGA工程师做接口的数据校验工作，如SERDES、DDR、JESD、SRIO等高速接口，还有以太网、UART、SPI、IIC等接口的通信链路(读写/收发)测试；
-+   用winsows批处理加do文件脚本在Modelsim上进行仿真验证（独立仿真）；
-+   参考了Xilinx的xapp052.pdf文件中提供的高达168bit的本原多项式抽头；
-+   包含Galois和Fibonacci两种类型LSFR的实现；
++   本项目是一个用于**FPGA**平台的**LSFR**模块代码；
++   使用**Verilog HDL**语言进行开发；
++   主要目的是为了方便FPGA工程师做**接口的数据校验**工作，如SERDES、DDR、JESD、SRIO等高速接口，还有以太网、UART、SPI、IIC等接口的通信链路(读写/收发)测试；
++   用**winsows批处理**加do文件脚本在**Modelsim**上进行仿真验证（**独立仿真**）；
++   参考了Xilinx的xapp052.pdf文件中提供的**高达168bit**的**本原多项式**抽头；
++   包含**Galois**和**Fibonacci**两种类型LSFR的实现；
++   使用**matlab**辅助进行verilog开发；
++   方便**版本控制**的文件管理结构；
 
 
 
@@ -76,29 +62,23 @@
 
     >   [维基百科LSFR](https://en.wikipedia.org/wiki/Linear-feedback_shift_register)
 
+    LSFR即Linear-feedback shift register，线性反馈移位寄存器，就是一种带反馈的移位寄存器，通过抽头系数进行反馈，使得移位寄存器的输出符合某种规律；
 
+    根据反馈抽头方法的不同，包括以下两种构型：
 
-LSFR即Linear-feedback shift register，线性反馈移位寄存器，就是一种带反馈的移位寄存器，通过抽头系数进行反馈，使得移位寄存器的输出符合某种规律；
+    **Galois型（one-to-many）**：
 
-根据反馈抽头方法的不同，包括以下两种构型：
+    <img 				       src="https://raw.githubusercontent.com/pthuang/mdimage/main/202304092113455.png" alt="20200225172052494" style="zoom:80%;" />
 
-**Galois型（one-to-many）**：
+    Galois型又叫one-to-many型，从图中可以看出，每一触发器的D端是前一触发器的Q端和抽头结果异或（同或）的结果，抽头系数g的取值只有0和1两种结果，即抽头或者不抽头，抽头的位置是同一个位置，即最高位（最低位）；从同一个位置（one）抽头，反馈到不同寄存器的D端（many），所以叫他ont-to-many。
 
-<img 				       src="https://raw.githubusercontent.com/pthuang/mdimage/main/202304092113455.png" alt="20200225172052494" style="zoom:80%;" />
+    **Fabonacci型(many-to-one)**：
 
+    <img src="https://raw.githubusercontent.com/pthuang/mdimage/main/202304092113458.png" alt="20200225172109639" style="zoom:80%;" />
 
+    Fabonacci型又叫many-to-one型，从图中可以看出，所有的抽头的异或（many）反馈到同一个触发器的D端，，所以叫他ont-to-many。
 
-Galois型又叫one-to-many型，从图中可以看出，每一触发器的D端是前一触发器的Q端和抽头结果异或（同或）的结果，抽头系数g的取值只有0和1两种结果，即抽头或者不抽头，抽头的位置是同一个位置，即最高位（最低位）；从同一个位置（one）抽头，反馈到不同寄存器的D端（many），所以叫他ont-to-many。
-
-
-
-**Fabonacci型(many-to-one)**：
-
-<img src="https://raw.githubusercontent.com/pthuang/mdimage/main/202304092113458.png" alt="20200225172109639" style="zoom:80%;" />
-
-Fabonacci型又叫many-to-one型，从图中可以看出，所有的抽头的异或（many）反馈到同一个触发器的D端，，所以叫他ont-to-many。
-
-
+    
 
 +   数学表达
 
@@ -107,14 +87,13 @@ Fabonacci型又叫many-to-one型，从图中可以看出，所有的抽头的异
     $$
     
     其中，R(x)是输出多项式，M(x)是输入多项式，G(x)是特征多项式（生成多项式）。
-    对于一个N位的寄存器，最多有2^N个不同的状态，但是由于全0（或）全1会导致移位寄存器陷入死循环，所以N位LSFR能产生的*最长不重复序列*的个数为：
-    
+    对于一个N位的寄存器，最多有2^N个不同的状态，但是由于全0（或全1）会导致移位寄存器陷入死循环，所以N位LSFR能产生的*最长不重复序列*的个数为：
     $$
     2 ^ N - 1
     $$
     
     此*最长不重复序列*称为**最长输出序列**，N位的LSFR，可用的抽头至少有n个（第0个抽头是必须的，不算），所以可以有很多种不同的抽头配置，但不是所有抽头都能使其达到**最长输出序列**，能使输出R(x)成为**最长输出序列**的特征多项式称为**本原多项式**。
-
+    
     值得注意的是，**本原多项式**并非只有一个。
     
     如N为3时，**本原多项式**可以是：
@@ -128,6 +107,16 @@ Fabonacci型又叫many-to-one型，从图中可以看出，所有的抽头的异
     $$
     X ^ 3 + X ^ 1 + 1 
     $$
+    
+    
++   LSFR的应用
+
+    +   PRBS发生器；
+    +   白噪声发生器；
+    +   CRC计算；
+    +   ......
+    
+    
     
 +   代码实现
 
@@ -147,7 +136,7 @@ Fabonacci型又叫many-to-one型，从图中可以看出，所有的抽头的异
                      end else begin
                          x_lsfr[1] <= x_lsfr[BIT_WIDTH] ^ fb_vec[0];
                          for (i=2;i<=BIT_WIDTH;i=i+1) begin: x_lsfr_gen
-                             x_lsfr[i] <= x_lsfr[i-1] ^ fb_vec[i-1]; // key code 
+                             x_lsfr[i] <= x_lsfr[i-1] ^ fb_vec[i-1]; 
                          end 
                      end
                  end
@@ -174,7 +163,7 @@ Fabonacci型又叫many-to-one型，从图中可以看出，所有的抽头的异
                      end else if (~lsfr_vld & ~seed_load_flag) begin
                          r_lsfr <= DEFAULT_SEED;
                      end else begin
-                         r_lsfr <= {r_lsfr[BIT_WIDTH-1:1], r_xnor}; //key code 
+                         r_lsfr <= {r_lsfr[BIT_WIDTH-1:1], r_xnor}; 
                      end
                  end
              end 
@@ -204,7 +193,23 @@ Fabonacci型又叫many-to-one型，从图中可以看出，所有的抽头的异
 
 +   文件管理结构说明
 
-​	
+    下图为此项目文档结构，按照这种方式进行管理主要出于以下考虑：
+
+    +   方便git进行管理；
+    +   不影响modelsimfang仿真；
+    +   不影响在此基础上建立FPGA工程；
+
+    **注意事项：**
+
+    当你运行一次仿真之后，./lsfr_test/script路径下会出现一些modelsim仿真产生的文件（编译结果，仿真库、波形文件等等），这些文件只是临时文件，仿真完成后可直接删除，并不影响项目的文件管理结构，因此也并没有加入到git版本控制当中。
+
+    <img src="https://raw.githubusercontent.com/pthuang/mdimage/main/202304102215729.png" alt="lsfr" style="zoom: 50%;" />
+
+​		
+
+​		
+
+
 
 
 
