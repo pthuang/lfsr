@@ -58,11 +58,11 @@ for i = 3:168
 
         if j == i
             if lsfr_tap(i,j) == 1
-                fprintf(fid, 'r_lsfr[%03d]}', j); %
+                fprintf(fid, 'r_lsfr[%03d]', j); %
             end
         elseif j == 1
             if lsfr_tap(i,j) == 1
-                fprintf(fid, ' ^~ r_lsfr[%03d]}', j); %
+                fprintf(fid, ' ^~ r_lsfr[%03d]', j); %
             end
         else
             if lsfr_tap(i,j) == 1
