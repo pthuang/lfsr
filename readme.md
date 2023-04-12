@@ -17,24 +17,25 @@
 
 +   2021/09/02 modify log:
     1.   galois型lsfr开发与仿真：只支持3~16bit，代码不规范，通用性不强，仿真用例简单。
-    
 +   2023/03/19 modify log:
 
     1.   fibonacci型lsfr开发与仿真：支持3-->128bit；
 
     2.   galois型lsfr更新到V2.0版本：支持bit数更新为3-->20,32,64,128bit；
-
 +   2023/04/08 modify log:
     1.   完成matlab代码（用于生成抽头矩阵verilog代码）；
     2.   完成所有模块代码更新；
     3.   修改仿真do脚本文件，优化文件管理结构；
 +   2023/04/09 modify log:
     1.   完成部分markdown文档编写；
-
 +   2023/04/10 modify log:
     1.   修复fabonacci模块的一个语法bug；
     2.   添加lsfr.xmind文件；
     3.   更新markdown，同步更新pdf；
++   2023/04/11 modify log:
+    1.   增加xilinx FPGA工程，并使用tcl脚本加入git管理；
++   2023/04/12 modify log:
+    1.   更新相关文档和图片；
 
 
 
