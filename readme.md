@@ -201,9 +201,13 @@
 
     当你运行一次仿真之后，./lsfr_test/script路径下会出现一些modelsim仿真产生的文件（编译结果，仿真库、波形文件等等），这些文件只是临时文件，仿真完成后可直接删除，并不影响项目的文件管理结构，因此也并没有加入到git版本控制当中。
 
-    <img src="https://raw.githubusercontent.com/pthuang/mdimage/main/202304102215729.png" alt="lsfr" style="zoom: 50%;" />
-
-​		
+    项目文件结构：
+    
+    ![image-20230412131631401](D:\Pictures\mdimage\202304121316211.png)
+    
+    FPGA工程文件结构：
+    
+    ![image-20230412132029266](https://raw.githubusercontent.com/pthuang/mdimage/main/202304121320793.png)
 
 ​		
 
