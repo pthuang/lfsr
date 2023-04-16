@@ -19,7 +19,7 @@
     1.   galois型lsfr开发与仿真：只支持3~16bit，代码不规范，通用性不强，仿真用例简单。
 +   2023/03/19 modify log:
 
-    1.   fibonacci型lsfr开发与仿真：支持3-->128bit；
+    1.   fibonacci型lsfr开发与仿真：支持3-->168bit；
 
     2.   galois型lsfr更新到V2.0版本：支持bit数更新为3-->20,32,64,128bit；
 +   2023/04/08 modify log:
