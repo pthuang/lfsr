@@ -1,6 +1,6 @@
 # compile verilog file
 vlog -93 -work work $SIM_HOME/tb_fibonacci_lsfr/tb_fibonacci_lsfr.v \
-$SRC_HOME/fibonacci_lsfr/fibonacci_lsfr.v
+$SRC_HOME/imports/fibonacci_lsfr/fibonacci_lsfr.v
 
 vsim -t ns -voptargs=+acc work.tb_fibonacci_lsfr 
 
