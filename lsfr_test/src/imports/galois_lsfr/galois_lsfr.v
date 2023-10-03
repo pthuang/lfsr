@@ -9,7 +9,7 @@
 // 
 // version: 1.0 
 // version: 2.0 Support BIT_WIDTH only include: 3-->20,32,64,128.
-// version: 3.0 Support BIT_WIDTH: 3-->128; 
+// version: 3.0 Support BIT_WIDTH: 3-->168; 
 //              Coding style modify to use verilog "for" syntax.
 // 
 // 
