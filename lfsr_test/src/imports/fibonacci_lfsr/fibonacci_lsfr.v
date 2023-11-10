@@ -1,24 +1,24 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Description: 
-// A lsfr or Linear Feedback Shift Register is a quick and easy way to generate
-// pseudo-random data inside of an FPGA.  The lsfr can be used for things like
+// A lfsr or Linear Feedback Shift Register is a quick and easy way to generate
+// pseudo-random data inside of an FPGA.  The lfsr can be used for things like
 // counters, test patterns, scrambling of data, and others.  This module
-// creates an lsfr whose width gets set by a parameter.  The lsfr_done will
-// pulse once all combinations of the lsfr are complete.  The number of clock
+// creates an lfsr whose width gets set by a parameter.  The lsfr_done will
+// pulse once all combinations of the lfsr are complete.  The number of clock
 // cycles that it takes lsfr_done to pulse is equal to 2^g_Num_Bits-1.  For
 // example setting g_Num_Bits to 5 means that lsfr_done will pulse every
 // 2^5-1 = 31 clock cycles.  lsfr_data will change on each clock cycle that
 // the module is enabled, which can be used if desired.
 //
 // Parameters:
-// BIT_WIDTH - Set to the integer number of bits wide to create your lsfr.
+// BIT_WIDTH - Set to the integer number of bits wide to create your lfsr.
 ///////////////////////////////////////////////////////////////////////////////
 
 //=============================================================================
-// File_name    : fibonacci_lsfr.v
+// File_name    : fibonacci_lfsr.v
 // Project_name : project_name.xpr
 // Author       : https://github.com/pthuang/
-// Function     : Fibonacci lsfr(many-to-one)
+// Function     : Fibonacci lfsr(many-to-one)
 //                File modified on the LFSR.v from "https://www.nandland.com"
 // 
 // The first thing you need to know is that this is a Fibonacci LSFR. So it may
@@ -43,7 +43,7 @@
 // 
 // 
 //=============================================================================
-module fibonacci_lsfr #
+module fibonacci_lfsr #
 (
     parameter BIT_WIDTH  = 8                  // maximum: 168
 )
@@ -88,8 +88,8 @@ module fibonacci_lsfr #
         end
     end 
 
-    // Purpose: Load up lsfr with Seed if load_evt pulse is detected.
-    // Othewise just run lsfr when enabled.
+    // Purpose: Load up lfsr with Seed if load_evt pulse is detected.
+    // Othewise just run lfsr when enabled.
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             r_lsfr <= DEFAULT_SEED; 
@@ -284,4 +284,4 @@ module fibonacci_lsfr #
     endgenerate
     
  
-endmodule // lsfr
+endmodule // lfsr

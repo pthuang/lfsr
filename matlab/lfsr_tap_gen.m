@@ -2,12 +2,12 @@
 clc; clear; close all; 
 
 %% get tap  
-lsfr_tap = TapInitial();
+lfsr_tap = TapInitial();
 
 
 %% galois tap gernerate 
-temp = zeros(size(lsfr_tap,1),1);
-galois_tap = [temp, lsfr_tap(:,1:end-1)];
+temp = zeros(size(lfsr_tap,1),1);
+galois_tap = [temp, lfsr_tap(:,1:end-1)];
 
 cnt_zero_len = 0;
 fid = fopen('galois_verilog_snippet.v','wt');
@@ -21,7 +21,7 @@ for i = 3:168
     for j = i:-1:1
         if j == 1
             if galois_tap(i,j) == 1
-                fprintf(fid, 'x_lsfr[BIT_WIDTH]}'); %
+                fprintf(fid, 'x_lfsr[BIT_WIDTH]}'); %
             else 
                 fprintf(fid, '%d''h0}', cnt_zero_len+1); % 
                 cnt_zero_len = 0;
@@ -32,7 +32,7 @@ for i = 3:168
                     fprintf(fid, '%d''h0,', cnt_zero_len); % 
                     cnt_zero_len = 0;
                 end
-                fprintf(fid, 'x_lsfr[BIT_WIDTH],'); %
+                fprintf(fid, 'x_lfsr[BIT_WIDTH],'); %
                 
             else 
                 cnt_zero_len = cnt_zero_len + 1;
@@ -57,16 +57,16 @@ for i = 3:168
     for j = i:-1:1
 
         if j == i
-            if lsfr_tap(i,j) == 1
-                fprintf(fid, 'r_lsfr[%03d]', j); %
+            if lfsr_tap(i,j) == 1
+                fprintf(fid, 'r_lfsr[%03d]', j); %
             end
         elseif j == 1
-            if lsfr_tap(i,j) == 1
-                fprintf(fid, ' ^~ r_lsfr[%03d]', j); %
+            if lfsr_tap(i,j) == 1
+                fprintf(fid, ' ^~ r_lfsr[%03d]', j); %
             end
         else
-            if lsfr_tap(i,j) == 1
-                fprintf(fid, ' ^~ r_lsfr[%03d]', j); %
+            if lfsr_tap(i,j) == 1
+                fprintf(fid, ' ^~ r_lfsr[%03d]', j); %
             end
         end
     end 

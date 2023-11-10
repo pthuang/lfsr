@@ -1,5 +1,5 @@
 //=============================================================================
-// File_name    : galois_lsfr.v
+// File_name    : galois_lfsr.v
 // Project_name : project_name.xpr
 // Author       : https://github.com/pthuang/
 // Function     : Galois lsfr(many-to-one)
@@ -19,7 +19,7 @@
 // 
 // 
 //=============================================================================
-module galois_lsfr #
+module galois_lfsr #
 (
     parameter BIT_WIDTH = 8 // 
 )
