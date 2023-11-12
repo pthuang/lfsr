@@ -17,6 +17,6 @@ vlib ./work/modelsim_lib
 
 vmap work ./work/modelsim_lib
 
-do {./tb_galois_lsfr_do/tb_galois_lsfr_compile.do}
-# do {./tb_fibonacci_lsfr_do/tb_fibonacci_lsfr_compile.do}
+do {./tb_galois_lfsr_do/tb_galois_lfsr_compile.do}
+# do {./tb_fibonacci_lfsr_do/tb_fibonacci_lfsr_compile.do}
  

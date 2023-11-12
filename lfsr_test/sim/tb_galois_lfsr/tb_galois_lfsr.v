@@ -2,7 +2,7 @@
 simulation time consumed: xx ms
 Tools:  Modelsim se-64 2019.2
 ***********************************************************/
-module tb_galois_lsfr ();
+module tb_galois_lfsr ();
  
     parameter BIT_WIDTH = 8;
 
@@ -16,24 +16,24 @@ module tb_galois_lsfr ();
     reg                 i_load_evt;
     reg [BIT_WIDTH-1:0] i_seed_data = {BIT_WIDTH{1'b1}};
 
-    wire                w_lsfr_vld;
-    wire[BIT_WIDTH-1:0] w_lsfr_data;
-    wire                w_lsfr_done;
+    wire                w_lfsr_vld;
+    wire[BIT_WIDTH-1:0] w_lfsr_data;
+    wire                w_lfsr_done;
 
-    wire                o_lsfr_vld;
-    wire[BIT_WIDTH-1:0] o_lsfr_data;
-    wire                o_lsfr_done;
+    wire                o_lfsr_vld;
+    wire[BIT_WIDTH-1:0] o_lfsr_data;
+    wire                o_lfsr_done;
     
-    reg                 w_lsfr_vld_r  = 0;
-    reg [BIT_WIDTH-1:0] w_lsfr_data_r = 0;
-    reg                 w_lsfr_done_r = 0; 
+    reg                 w_lfsr_vld_r  = 0;
+    reg [BIT_WIDTH-1:0] w_lfsr_data_r = 0;
+    reg                 w_lfsr_done_r = 0; 
 
     reg                 err_flag = 0;
   
     always @(*) #10 clk <= ~clk; 
 
     // Seed Genarate ---------------------------------------------
-    always @(posedge clk) begin
+    always @(posedge clk) begin 
         if (cnt_temp == 16'd63) begin
             cnt_temp <= 0;
         end else begin
@@ -41,8 +41,8 @@ module tb_galois_lsfr ();
         end
     end
 
-    always @(posedge clk) begin
-        if (cnt_temp == 16'd15) begin
+    always @(posedge clk) begin 
+        if (cnt_temp == 16'd15) begin 
             enable <= 1;
         end else if(cnt_temp == 16'd63) begin
             enable <= 0;
@@ -63,41 +63,39 @@ module tb_galois_lsfr ();
     end
 
 //=================< Submodule Instantiation >==========================
-    galois_lsfr # ( .BIT_WIDTH(BIT_WIDTH) ) lsfr_gen
-    (
+    galois_lfsr # ( .BIT_WIDTH(BIT_WIDTH) ) lfsr_gen (
         .clk        ( clk           ),
         .rst        ( rst           ),
         .enable     ( enable_r      ),
         .load_evt   ( i_load_evt    ),
         .seed_data  ( i_seed_data   ), 
-        .lsfr_vld   ( w_lsfr_vld    ),
-        .lsfr_data  ( w_lsfr_data   ),
-        .lsfr_done  ( w_lsfr_done   )
+        .lfsr_vld   ( w_lfsr_vld    ),
+        .lfsr_data  ( w_lfsr_data   ),
+        .lfsr_done  ( w_lfsr_done   )
     );
 
-    galois_lsfr # ( .BIT_WIDTH(BIT_WIDTH) ) lsfr_check
-    (
+    galois_lfsr # ( .BIT_WIDTH(BIT_WIDTH) ) lfsr_check (
         .clk        ( clk           ),
         .rst        ( rst           ),
-        .enable     ( w_lsfr_vld    ),
-        .load_evt   ( w_lsfr_done   ),
-        .seed_data  ( w_lsfr_data   ), 
-        .lsfr_vld   ( o_lsfr_vld    ),
-        .lsfr_data  ( o_lsfr_data   ),
-        .lsfr_done  ( o_lsfr_done   )
+        .enable     ( w_lfsr_vld    ),
+        .load_evt   ( w_lfsr_done   ),
+        .seed_data  ( w_lfsr_data   ), 
+        .lfsr_vld   ( o_lfsr_vld    ),
+        .lfsr_data  ( o_lfsr_data   ),
+        .lfsr_done  ( o_lfsr_done   )
     ); 
 
     // Lsfr data check ---------------------------------------------
     always @(posedge clk) begin
-        w_lsfr_vld_r  <= w_lsfr_vld ;
-        w_lsfr_data_r <= w_lsfr_data;
-        w_lsfr_done_r <= w_lsfr_done;
+        w_lfsr_vld_r  <= w_lfsr_vld ;
+        w_lfsr_data_r <= w_lfsr_data;
+        w_lfsr_done_r <= w_lfsr_done;
     end
 
     // error check
     always @(posedge clk) begin
-        if (w_lsfr_vld_r & o_lsfr_vld) begin
-            if (o_lsfr_data != w_lsfr_data_r) begin
+        if (w_lfsr_vld_r & o_lfsr_vld) begin
+            if (o_lfsr_data != w_lfsr_data_r) begin
                 err_flag <= 1;
             end 
         end 
@@ -111,8 +109,7 @@ module tb_galois_lsfr ();
         $monitor($time);
     end 
 
-    always@(posedge clk)
-    begin
+    always@(posedge clk) begin 
         if(stop_sim)
         begin
             stop_sim_dly <= stop_sim_dly + 1;
