@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 ///////////////////////////////////////////////////////////////////////////////
 // Description: 
 // A lfsr or Linear Feedback Shift Register is a quick and easy way to generate

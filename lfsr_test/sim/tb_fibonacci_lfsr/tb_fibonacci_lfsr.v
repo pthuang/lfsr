@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 /***********************************************************
 simulation time consumed: xx ms
 Tools:  Modelsim se-64 2019.2

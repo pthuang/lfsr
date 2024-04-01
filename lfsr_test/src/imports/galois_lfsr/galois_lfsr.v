@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 //=============================================================================
 // File_name    : galois_lfsr.v
 // Project_name : project_name.xpr
